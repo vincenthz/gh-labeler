@@ -33,7 +33,7 @@ toToken s
     toW8 = fromIntegral . fromEnum
     err = error $ "not a valid token. only expecting an hexadecimal token, but got: " ++ show s
 
-data Cmd = List | Create String String | Delete [String] | Sync String
+data Cmd = List | Create String String | Delete [String] | Rename [String] | Sync String
     deriving (Show,Eq)
 
 newtype Color = Color String
@@ -137,6 +137,24 @@ command ghHandle repo List = do
     showLabel (Label name color) =
         show name ++ " " ++ show color
 
+command ghHandle repo (Rename names) = do
+    tok    <- readToken
+    labels <- getRepoLabels tok ghHandle repo
+
+    let pairs = pair $ map LabelName names
+    forM_ pairs $ \(p1, p2) -> do
+        case findLabel p1 labels of
+            Nothing ->
+                putStrLn ("skipping label " ++ show p1 ++ " that doesn't appear to exists")
+            Just l  -> do
+                putStrLn ("renaming label " ++ show p1 ++ " to " ++ show p2)
+                let cmd = LabelUpdate p1 p2 (getLabelColor l)
+                processError cmd =<< labelCommand cmd tok ghHandle repo
+  where
+    pair []       = []
+    pair (x:y:xs) = (x,y):pair xs
+    pair (_:[])   = error "invalid pair of a single element"
+
 command ghHandle repo (Sync file) = do
     tok    <- readToken
     labels <- readLabels file
@@ -193,6 +211,9 @@ main = do
             command (Github.mkName Proxy $ T.pack ghHandle) (Github.mkName Proxy $ T.pack repo) (Sync file)
         ghHandle:repo:"delete":l ->
             command (Github.mkName Proxy $ T.pack ghHandle) (Github.mkName Proxy $ T.pack repo) (Delete l)
+        ghHandle:repo:"rename":l -> do
+            when ((length l `mod` 2) /= 0) $ failExit "you need pairs of label names"
+            command (Github.mkName Proxy $ T.pack ghHandle) (Github.mkName Proxy $ T.pack repo) (Rename l)
         _ -> do
             putStrLn "usage: gh-labeler <github-handle> <repository> <cmd>"
             putStrLn ""
@@ -200,6 +221,7 @@ main = do
             putStrLn "  sync <label-file>"
             putStrLn "  create <label> <color>"
             putStrLn "  delete <label1> [label2...]"
+            putStrLn "  rename <label1> <label2> [<label3> <label4>].."
             putStrLn ""
             putStrLn "label file format:"
             putStrLn "  <hexa color> <name>"

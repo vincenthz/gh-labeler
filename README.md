@@ -30,10 +30,16 @@ gh-labeler vincenthz gh-labeler list
 gh-labeler vincenthz gh-labeler create myLabel eeb2d3
 ```
 
-* Delete a label
+* Delete labels
 
 ```
-gh-labeler vincenthz gh-labeler delete myLabel
+gh-labeler vincenthz gh-labeler delete myLabel myLabel2
+```
+
+* Rename labels
+
+```
+gh-labeler vincenthz gh-labeler rename myOldName myNewName myOld2 myNew2
 ```
 
 * Synchronise from a file (See Example label file for the format):
