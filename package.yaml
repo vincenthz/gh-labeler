@@ -22,7 +22,7 @@ dependencies:
 - base >= 0 && < 5
 
 executables:
-  gh-labeler-exe:
+  gh-labeler:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
