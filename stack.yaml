@@ -1,0 +1,6 @@
+resolver: lts-10.8
+packages:
+- .
+extra-deps:
+- github-0.19
+- http-types-0.12.1

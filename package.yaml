@@ -1,0 +1,38 @@
+name:                gh-labeler
+version:             0.1.0
+github:              "vincenthz/gh-labeler"
+license:             BSD3
+author:              "Vincent Hanquez"
+maintainer:          "vincent@snarc.org"
+copyright:           "2018 Vincent Hanquez"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+synopsis:            Github Standard Labeler
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/githubuser/gh-labeler#readme>
+
+dependencies:
+- base >= 0 && < 5
+
+executables:
+  gh-labeler-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    dependencies:
+    - github
+    - memory
+    - vector
+    - directory
+    - text
