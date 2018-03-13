@@ -16,7 +16,7 @@ synopsis:            Github Standard Labeler
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/githubuser/gh-labeler#readme>
+description:         Please see the README on Github at <https://github.com/vincenthz/gh-labeler#readme>
 
 dependencies:
 - base >= 0 && < 5

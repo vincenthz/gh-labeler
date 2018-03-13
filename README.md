@@ -3,6 +3,14 @@
 This is a simple CLI tool to create, delete and synchronise labels
 on a github repo.
 
+## Install
+
+The simplest method is to install `stack` and then:
+
+```
+stack install gh-labeler
+```
+
 ## Usage
 
 Create a github OAuth token with the `public_repo` priviledge (in `repo` section),
